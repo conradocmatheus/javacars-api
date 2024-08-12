@@ -1,5 +1,6 @@
 package app.cars.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,13 +22,9 @@ public class Car {
 
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "brand_id")
+    @JsonIgnoreProperties("cars")
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Brand brand;
-
-    private String model;
-
-    private Integer year;
 
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
